@@ -17,6 +17,7 @@
 </template>
 <script>
 import Vue from 'vue'
+import { realconsole } from '../scripts/ffmpeg.js' 
 export default {
   data () {
     return {
@@ -40,10 +41,11 @@ Vue.component('animation-list', {
   template: `
   <li>
     <img :src='todo.img' style="width:290px"/>
-    <h1>{{todo.name}}<h1>
+    <h1>{{todo.name}}</h1>
   </li>
   `
 })
+
 </script>
 
 <style scoped>
