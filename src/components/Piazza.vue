@@ -17,7 +17,6 @@
 </template>
 <script>
 import Vue from 'vue'
-import { realconsole } from '../scripts/ffmpeg.js' 
 export default {
   data () {
     return {
