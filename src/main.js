@@ -8,6 +8,7 @@ import router from './router'
 Vue.config.productionTip = false
 Vue.prototype.HOST = 'http://39.105.65.8:9999'
 
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
