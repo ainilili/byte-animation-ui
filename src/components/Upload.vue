@@ -227,6 +227,7 @@ export default {
                       }
                     }else if(r.data.code == 512){
                        app.progress = 100;
+                       clearInterval(timer)
                     }else {
                       
                     }
