@@ -1,42 +1,59 @@
 <template>
   <div class="contains">
-    <Form ref="formInline" :model="formInline" :rules="ruleInline">
+    <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
       <FormItem prop="username" inline>
-        <Input type="text" v-model="formInline.username" placeholder="Username">
+        <Input v-model="formInline.username" placeholder="Username">
           <Icon type="ios-person-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
-      <FormItem prop="password" inline>
+      <FormItem prop="code"  >
+        <Input v-model="formInline.code" placeholder="code">
+          <Icon type="ios-code" slot="prepend"></Icon>
+        </Input>
+      </FormItem>
+      <FormItem  >
+        <Button type="info" @click="sendMail" class="sendMail" >{{this.count}}</Button>
+      </FormItem>
+      <FormItem prop="password" >
         <Input
-          type="password"
           v-model="formInline.password"
           placeholder="Password"
+          type="text"
         >
           <Icon type="ios-lock-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
-      <FormItem inline>
+      <FormItem >
         <Button type="primary" @click="handleSubmit('formInline')"
-          >Signin</Button
+          >Register</Button
         >
       </FormItem>
     </Form>
   </div>
 </template>
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 var app = null;
 
 export default {
   data() {
     return {
+      count: "send",
       formInline: {
         username: "",
-        password: ""
+        password: "",
+        code: ""
       },
       ruleInline: {
         username: [
+          {
+            required: true,
+            message: "Please fill in the user name",
+            trigger: "blur"
+          }
+        ],
+        code: [
           {
             required: true,
             message: "Please fill in the user name",
@@ -64,30 +81,61 @@ export default {
       this.$refs[name].validate(valid => {
         if (valid) {
           var from = this;
-          axios.post(app.HOST + "/tokens/", this.formInline)
+          axios
+            .post(app.HOST + "/user/", this.formInline)
+            .then(function(response) {
+              if (response.data.code == 200) {
+                from.$Message.success("注册成功");
+                app.$router.push({name:'Login'})
+              } else {
+                from.$Message.error(response.data.msg);
+              }
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
+        } else {
+        }
+      });
+    },
+    sendMail(){
+      var form = this.$refs["formInline"];
+      if(! this.formInline.username){
+        form.$Message.error("请输入邮箱")
+        return;
+      }
+      if(this.count == 'send'){
+        
+        var mailInfo = {
+          type: 1,
+          email: this.formInline.username
+        }
+        axios.post(app.HOST + "/mail/", mailInfo)
           .then(function (response) {
             if(response.data.code == 200){
-              var userInfo = response.data.data;
-              localStorage.setItem("token", userInfo.token);
-              localStorage.setItem("nickname", userInfo.nickname);
-              
+              form.$Message.success("发送成功");
+              app.count = 60;
+              var countTimer = setInterval(function(){
+                app.count --;
+                if(app.count == 0){
+                  app.count = 'send';
+                  clearInterval(countTimer)
+                }
+              }, 1000);
             }else{
-              from.$Message.error(response.data.msg);
+              form.$Message.error(response.data.msg);
             }
           })
           .catch(function (error) {
             console.log(error);
           });
-        } else {
-          
-        }
-      });
+      }
+      
     }
   },
-  created () {
+  created() {
     app = this;
-  },
-
+  }
 };
 </script>
 

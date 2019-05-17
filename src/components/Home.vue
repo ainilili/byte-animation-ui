@@ -60,14 +60,9 @@ export default {
       }
     },
     created () {
-       this.list(this.page ++, 5);
-       this.list(this.page ++, 5);
-       this.list(this.page ++, 5);
-       this.list(this.page ++, 5);
-       this.list(this.page ++, 5);
-       this.list(this.page ++, 5);
-       this.list(this.page ++, 5);
-       this.list(this.page ++, 5);
+       this.list(1, 10);
+       this.list(2, 10);
+       this.page = 5;
        app = this;
     },
     components: {

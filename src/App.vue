@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <div class="banner" >
-        <Button class="banner-item" icon="ios-download-outline" type="primary" v-if="token">Upload</Button>
+        <h2 style="float:left;cursor:pointer" @click="home">BYTE BY NICO</h2>
+        <Button class="banner-item" icon="ios-download-outline" type="primary" v-if="token" @click="upload">Upload</Button>
         <Button class="banner-item" icon="logo-dribbble" type="primary" v-if="!token" @click="login">Login</Button>
         <Button class="banner-item" icon="ios-exit" type="warning" v-if="token" @click="exit">Exit</Button>
         <div class="demo-avatar banner-item" v-if="token">
@@ -29,6 +30,12 @@ export default {
     },
     login(){
       this.$router.push({name:'Login'})
+    },
+    upload(){
+      this.$router.push({name:'Upload'})
+    },
+    home (){
+      this.$router.push({name:'Home'})
     }
   },
   created (){

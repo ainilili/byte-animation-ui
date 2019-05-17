@@ -20,6 +20,11 @@
           >Signin</Button
         >
       </FormItem>
+      <FormItem inline>
+        <Button type="info" @click="register"
+          >Register</Button
+        >
+      </FormItem>
     </Form>
   </div>
 </template>
@@ -63,7 +68,7 @@ export default {
     handleSubmit(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
-          var from = this;
+          var form = this;
           axios.post(app.HOST + "/tokens/", this.formInline)
           .then(function (response) {
             if(response.data.code == 200){
@@ -72,7 +77,7 @@ export default {
               localStorage.setItem("nickname", userInfo.nickname);
               app.$router.push({name:'Home'})
             }else{
-              from.$Message.error(response.data.msg);
+              form.$Message.error(response.data.msg);
             }
           })
           .catch(function (error) {
@@ -82,6 +87,9 @@ export default {
           
         }
       });
+    },
+    register(){
+      app.$router.push({name:'Register'})
     }
   },
   created () {

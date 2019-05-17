@@ -6,8 +6,8 @@ import router from './router'
 import axios from 'axios'
 
 Vue.config.productionTip = false
-// Vue.prototype.HOST = 'http://39.105.65.8:9999'
-Vue.prototype.HOST = 'http://127.0.0.1:9999'
+Vue.prototype.HOST = 'http://39.105.65.8:9999'
+// Vue.prototype.HOST = 'http://127.0.0.1:9999'
 
 
 /* eslint-disable no-new */
